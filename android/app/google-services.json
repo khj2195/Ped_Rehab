@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "36042497728",
+    "project_id": "sotong-722f2",
+    "storage_bucket": "sotong-722f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36042497728:android:464a158e33c1ddb30e1725",
+        "android_client_info": {
+          "package_name": "com.ped_rehab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36042497728-lsslefbfu5rob85p631umjs3kmse7rok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ped_rehab",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "36042497728-pp09dudgvlbtgkmduaf2bfs0hkat8cmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJA5IUlXvKKqh57Rn-zO3UtI8g0CrpS1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36042497728-pp09dudgvlbtgkmduaf2bfs0hkat8cmg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

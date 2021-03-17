@@ -18,29 +18,36 @@ const ListSearchScreen = () => {
   const [centerName, setCenterName] = useState("");
   const [typePopup, setTypePopup] = useState(false);
   const [locationPopup, setLocationPopup]=useState(false);
-  // const [centerType, setCenterType] = useState("병원");
   const {centerType, setCenterType} = useContext(SearchContext);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <FormInput
+    <View style={styles.container}>
+      <View style={{flex:0.5}}>
+        <FormInput
             labelValue={centerName}
             onChangeText={(userCenter) => setCenterName(userCenter)}
-            placeholderText="Search"
-            iconType="search1"
+            placeholderText="병원 또는 센터를 검색하세요"
+            iconType= {require('../assets/magnifier.png')}
             autoCapitalize="none"
             autoCorrect={false}
             editable={true}
         />
-      <View style={{flexDirection:'row'}}>
-        <Button
-          title= {centerType}
-          onPress= {()=>setTypePopup(!typePopup)}
-        />
-        <Button
+      </View>
+      {/* 병원 유형 */}
+      <View style={{flex:0.5, flexDirection:'row'}}>
+        <TouchableOpacity 
+          style={styles.button_2letter}
+          onPress={()=>{setTypePopup(true)}}
+        >
+          <Text style={{fontSize:16, color:'#FA8072'}}>{centerType}</Text>
+        </TouchableOpacity>   
+        {/* <Button
           title= "지역별"
           onPress= {()=>setLocationPopup(!locationPopup)}
-        />
+        /> */}
+        <TouchableOpacity style={styles.button_3letter}>
+          <Text style={{fontSize:16, color:'#FA8072'}}>지역별</Text>
+        </TouchableOpacity>
       </View>
       <Modal
         visible={typePopup}
@@ -72,7 +79,7 @@ const ListSearchScreen = () => {
           />
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -80,10 +87,12 @@ export default ListSearchScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection:'column',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    paddingTop: 20
+    paddingTop: 10,
+    backgroundColor:'white'
   },
   logo: {
     height: 50,
@@ -97,5 +106,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#051d5f',
     textAlign: 'center',
+  },
+  button_2letter : {height:33, width:42, backgroundColor:'white',borderWidth:1, padding:5,
+  borderTopLeftRadius: 15,
+  borderTopRightRadius: 15,
+  borderBottomLeftRadius: 15,
+  borderBottomRightRadius: 15,
+  borderColor:'#FA8072'
+  },
+  button_3letter : {height:33, width:58, backgroundColor:'white',borderWidth:1, padding:5,
+  borderTopLeftRadius: 15,
+  borderTopRightRadius: 15,
+  borderBottomLeftRadius: 15,
+  borderBottomRightRadius: 15,
+  borderColor:'#FA8072'
+  },
+  button_4letter : {height:33, width:74, backgroundColor:'white',borderWidth:1, padding:5,
+  borderTopLeftRadius: 15,
+  borderTopRightRadius: 15,
+  borderBottomLeftRadius: 15,
+  borderBottomRightRadius: 15,
+  borderColor:'#FA8072'
   },
 });

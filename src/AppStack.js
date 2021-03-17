@@ -14,7 +14,8 @@ const AppStack = () => {
             name="Home" 
             component={TabStack}
             options = {{
-                title: 'SoTong',
+                // title: 'SoTong',
+                headerShown: false
             }}
             />
             <Stack.Screen 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, StyleSheet, Dimensions} from 'react-native';
+import {View, TextInput, StyleSheet, Dimensions, Image} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const windowWidth = Dimensions.get('window').width;
@@ -17,7 +17,7 @@ const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
         {...rest}
       />      
       <View style={styles.iconStyle}>
-        <AntDesign name={iconType} size={25} color="#666" />
+        <Image style={{width: 25, height: 25}} source={iconType}/>
       </View>
     </View>
   );

@@ -9,53 +9,60 @@ import {
   StyleSheet,
   ScrollView,
   Alert,
-  
+  Dimensions
 } from 'react-native';
 import FormInput from '../components/FormInput';
 import SwitchSelector from "react-native-switch-selector";
 import {SearchContext} from '../SearchProvider';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const HomeScreen = ({navigation}) => {
   
   const [centerName, setCenterName] = useState();
   const {centerType, setCenterType} = useContext(SearchContext);
-  // const [centerType, setCenterType] = useState("병원");
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.leftText}>소아재활</Text>
-      <Text style={styles.leftText}>통합플랫폼에서</Text>
-      <Text style={styles.leftText}>쉽고 빠르게 병원 찾기</Text>
-      <SwitchSelector
-        initial={0}
-        onPress={(value) => {setCenterType(value), console.log(value)}}
-        textColor='#f0aa98' //'#7a44cf'
-        selectedColor='#fff'
-        buttonColor='#f0aa98'
-        borderColor='#f0aa98'
-        height={40}
-        fontSize={18}
-        width={40}
-        options={[
-          { label: "병원", value: "병원" }, 
-          { label: "사설센터", value: "사설센터" } 
-        ]}
-      />
+    <View style={styles.container}>
+      <Text style={styles.leftText}>소아재활 통합 정보는</Text>
+      <View style={{flexDirection:'row',alignItems:'flex-end', marginBottom:20}}>
+        <Text style={styles.centralText}>           소통</Text>
+        <Text style={styles.leftText}>에서 쉽고 빠르게</Text>
+      </View>
+      <View style={{marginLeft:windowWidth/4, marginRight:windowWidth/4}}>        
+        <SwitchSelector
+          initial={0}
+          onPress={(value) => {setCenterType(value), console.log(value)}}
+          textColor='#FA8072' //'#7a44cf'
+          selectedColor='#fff'
+          buttonColor='#FA8072'
+          borderColor='#FA8072'
+          backgroundColor='#f0f0f0'
+          height={30}
+          fontSize={15}
+          options={[
+            { label: "병원", value: "병원" }, 
+            { label: "사설센터", value: "사설센터" } 
+          ]}
+        />
+      </View>
       <TouchableOpacity
         onPress={()=>{
           navigation.navigate('ListSearch')
-        }}>
+        }}
+        style={{marginBottom:130}}>
         <FormInput
             labelValue={centerName}
             onChangeText={(userCenter) => setCenterName(userCenter)}
-            placeholderText="Search"
-            iconType="search1"
+            placeholderText="병원 또는 센터를 검색하세요"
+            iconType= {require('../assets/magnifier.png')}
             autoCapitalize="none"
             autoCorrect={false}
             editable={false}
         />
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -64,9 +71,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    // alignItems: 'center',
+    flex: 1,
     padding: 20,
-    paddingTop: 120
+    backgroundColor:'white',
   },
   logo: {
     height: 50,
@@ -76,16 +83,18 @@ const styles = StyleSheet.create({
   },
   centralText: {
     fontFamily: 'Kufam-SemiBoldItalic',
-    fontSize: 22,
+    fontSize: 25,
+    fontWeight:'bold',
     marginBottom: 10,
-    color: '#051d5f',
+    color: '#FA8072',
     textAlign: 'center',
   },
   leftText: {
-    fontFamily: 'Kufam-SemiBoldItalic',
-    fontSize: 22,
+    // fontFamily: 'Kufam-SemiBoldItalic',
+    fontFamily: 'Typo_SSiGothic180',
+    fontSize: 19,
     marginBottom: 10,
     color: '#051d5f',
-    marginLeft: 33,
+    textAlign: 'center',
   },
 });

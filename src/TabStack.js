@@ -11,21 +11,22 @@ import Icons from 'react-native-vector-icons/dist/Ionicons';
 
 const Tab = createBottomTabNavigator();
 const TabBarIcon = (focused, name) => {
-    let iconName, iconSize
+    let iconName, fontSize;
     if (name === '홈') {
-     iconName = focused? 'home' : 'home-outline'
+     iconName = focused ? require('./assets/home_click.png') : require('./assets/home.png')
     } else if (name === '지도') {
-     iconName = focused? 'navigate' : 'navigate-outline'
+     iconName = focused ? require('./assets/placeholder_click.png') : require('./assets/placeholder.png')
     } else if (name === '커뮤니티') {
-     iconName = focused? 'chatbox-ellipses' : 'chatbox-ellipses-outline'
+     iconName = focused ? require('./assets/chat_click.png') : require('./assets/chat.png')
     } else if (name === 'My Page') {
-     iconName = focused? 'person' : 'person-outline'
+     iconName = focused ? require('./assets/user_click.png') : require('./assets/user.png')
     }
-    iconSize= 30
     return (
-      <Icons 
-       name = {iconName}
-       size= {iconSize}
+      <Image
+        style={{
+            width: 20, height: 20
+        }}
+        source={iconName}
       />
     )
     }
@@ -35,8 +36,8 @@ const TabStack = () => {
         <Tab.Navigator
             initialRouteName ="홈"
             screenOptions = {({route})=>({
-            tabBarLabel: route.name,
-            tabBarIcon: ({focused})=> TabBarIcon(focused, route.name)
+                    tabBarLabel: route.name,
+                    tabBarIcon: ({focused})=> TabBarIcon(focused, route.name)
             })}  
         >
             <Tab.Screen name="홈" component={HomeScreen} />
