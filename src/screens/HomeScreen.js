@@ -32,7 +32,7 @@ const HomeScreen = ({navigation}) => {
       </View>
       <View style={{marginLeft:windowWidth/4, marginRight:windowWidth/4}}>        
         <SwitchSelector
-          initial={0}
+          initial={centerType==='병원'? 0 : 1}
           onPress={(value) => {setCenterType(value), console.log(value)}}
           textColor='#FA8072' //'#7a44cf'
           selectedColor='#fff'

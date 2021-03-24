@@ -19,10 +19,12 @@ const ListSearchScreen = () => {
   const [typePopup, setTypePopup] = useState(false);
   const [locationPopup, setLocationPopup]=useState(false);
   const {centerType, setCenterType} = useContext(SearchContext);
+  const {location, setLocation} = useContext(SearchContext);
+
 
   return (
     <View style={styles.container}>
-      <View style={{flex:0.5}}>
+      <View style={{flex:1, alignItems: 'center',}}>
         <FormInput
             labelValue={centerName}
             onChangeText={(userCenter) => setCenterName(userCenter)}
@@ -34,18 +36,17 @@ const ListSearchScreen = () => {
         />
       </View>
       {/* 병원 유형 */}
-      <View style={{flex:0.5, flexDirection:'row'}}>
+      <View style={{flex:7, flexDirection:'row'}}>
         <TouchableOpacity 
           style={styles.button_2letter}
           onPress={()=>{setTypePopup(true)}}
         >
           <Text style={{fontSize:16, color:'#FA8072'}}>{centerType}</Text>
         </TouchableOpacity>   
-        {/* <Button
-          title= "지역별"
-          onPress= {()=>setLocationPopup(!locationPopup)}
-        /> */}
-        <TouchableOpacity style={styles.button_3letter}>
+        <TouchableOpacity 
+          style={styles.button_3letter}
+          onPress={()=>{setLocationPopup(true)}}
+        >
           <Text style={{fontSize:16, color:'#FA8072'}}>지역별</Text>
         </TouchableOpacity>
       </View>
@@ -71,11 +72,17 @@ const ListSearchScreen = () => {
         <View>
           <Button
             title="서울시"
-            onPress={()=>{setLocationPopup(false)}}
+            onPress={()=>{
+              setLocation('서울시');
+              setLocationPopup(false);
+            }}
             />
           <Button
-            title="경기도"
-            onPress={()=>{setLocationPopup(false)}}
+            title="제주특별자치도"
+            onPress={()=>{
+              setLocation('제주특별자치도');
+              setLocationPopup(false);
+            }}
           />
         </View>
       </Modal>
@@ -87,9 +94,10 @@ export default ListSearchScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection:'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     padding: 20,
     paddingTop: 10,
     backgroundColor:'white'
@@ -112,20 +120,20 @@ const styles = StyleSheet.create({
   borderTopRightRadius: 15,
   borderBottomLeftRadius: 15,
   borderBottomRightRadius: 15,
-  borderColor:'#FA8072'
+  borderColor:'#FA8072',
   },
   button_3letter : {height:33, width:58, backgroundColor:'white',borderWidth:1, padding:5,
   borderTopLeftRadius: 15,
   borderTopRightRadius: 15,
   borderBottomLeftRadius: 15,
   borderBottomRightRadius: 15,
-  borderColor:'#FA8072'
+  borderColor:'#FA8072',
   },
   button_4letter : {height:33, width:74, backgroundColor:'white',borderWidth:1, padding:5,
   borderTopLeftRadius: 15,
   borderTopRightRadius: 15,
   borderBottomLeftRadius: 15,
   borderBottomRightRadius: 15,
-  borderColor:'#FA8072'
+  borderColor:'#FA8072',
   },
 });
