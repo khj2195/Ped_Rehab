@@ -1,4 +1,4 @@
-import React, {useState, useContext } from 'react';
+import React, {useState, useContext, useRef } from 'react';
 import {
   View,
   Text,
@@ -12,15 +12,20 @@ import {
 } from 'react-native';
 import FormInput from '../components/FormInput';
 import {SearchContext} from '../SearchProvider';
-
+import RBSheet from "react-native-raw-bottom-sheet";
+const treatmentTypes={}
 
 const ListSearchScreen = () => {
   const [centerName, setCenterName] = useState("");
   const [typePopup, setTypePopup] = useState(false);
   const [locationPopup, setLocationPopup]=useState(false);
+  const [carePopup, setCarePopup] = useState(false);
+
   const {centerType, setCenterType} = useContext(SearchContext);
   const {location, setLocation} = useContext(SearchContext);
 
+  // const areaBottomSheet=useRef();
+  // const careBottomSheet=useRef();
 
   return (
     <View style={styles.container}>
@@ -49,7 +54,30 @@ const ListSearchScreen = () => {
         >
           <Text style={{fontSize:16, color:'#FA8072'}}>지역별</Text>
         </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.button_4letter}
+          onPress={()=>{setCarePopup(true)}}
+        >
+          <Text style={{fontSize:16, color:'#FA8072'}}>치료영역</Text>
+        </TouchableOpacity>
       </View>
+
+      {/* <RBSheet
+          ref={areaBottomSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          customStyles={{
+            wrapper: {
+              backgroundColor: "transparent"
+            },
+            draggableIcon: {
+              backgroundColor: "#000"
+            }
+          }}
+          height={Dimensions.get('window').height/4}
+          > 
+      </RBSheet> */}
+
       <Modal
         visible={typePopup}
         animationType='slide'
@@ -63,6 +91,78 @@ const ListSearchScreen = () => {
             title="사설센터"
             onPress={()=>{setCenterType("사설센터"), setTypePopup(false)}}
           />
+          
+        </View>
+      </Modal>
+      <Modal
+        visible={carePopup}
+        animationType='slide'
+      >
+        <View style={{flex:1}}>
+          <View style={{flex:1, justifyContent:'center', paddingTop:15, paddingBottom:15}}>
+            <Text style={{fontSize:20, fontWeight:'normal', textAlign:'center'}}>치료과목 선택</Text>
+          </View>
+          <View style={{flex:3, flexDirection:'row'}}>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity style={{borderColor:'#FA8072'}}>
+                <Text style={styles.optionText}>운동재활치료</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity style={{borderColor:'#FA8072'}}>
+                <Text style={styles.optionText}>감각재활치료</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex:3, flexDirection:'row'}}>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity>
+                <Text style={styles.optionText}>놀이치료</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity>
+                <Text style={styles.optionText}>행동치료(ABA)</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex:3, flexDirection:'row'}}>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity>
+                <Text>언어치료</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity>
+                <Text>심리치료</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex:3, flexDirection:'row'}}>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity>
+                <Text>심리운동치료</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity>
+                <Text>청능치료</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex:3, flexDirection:'row'}}>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity>
+                <Text>음악치료</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{flex:1, justifyContent:'center'}}>
+              <TouchableOpacity>
+                <Text>미술치료</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex:10}} />          
         </View>
       </Modal>
       <Modal
@@ -84,8 +184,16 @@ const ListSearchScreen = () => {
               setLocationPopup(false);
             }}
           />
+          <Button
+            title="경기도"
+            onPress={()=>{
+              setLocation('경기도');
+              setLocationPopup(false);
+            }}
+          />
         </View>
       </Modal>
+
     </View>
   );
 };
@@ -136,4 +244,8 @@ const styles = StyleSheet.create({
   borderBottomRightRadius: 15,
   borderColor:'#FA8072',
   },
+  optionText:{
+    fontSize:15,
+    paddingLeft:15
+  }
 });

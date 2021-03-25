@@ -24,8 +24,12 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-      <meta-data android:name="com.naver.maps.map.CLIENT_ID"
-        android:value="6itiy8gvd5" />
+      <!-- <meta-data android:name="com.naver.maps.map.CLIENT_ID"
+                 android:value="6itiy8gvd5" /> -->
+      <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCa6NHx9RGsjMotkfKq8psNbbEwBNAp5dc"/>
+      <uses-library android:name="org.apache.http.legacy" android:required="false"/>         
     </application>
 
 </manifest>

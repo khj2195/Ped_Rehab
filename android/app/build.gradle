@@ -186,14 +186,25 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
     // 네이버 지도 SDK
-    implementation 'com.naver.maps:map-sdk:3.11.0'
-    
+    // implementation 'com.naver.maps:map-sdk:3.11.0'
+
+    // Google map setting
+    implementation(project(':react-native-maps')){
+        exclude group: 'com.google.android.gms', module: 'play-services-base'
+        exclude group: 'com.google.android.gms', module: 'play-services-maps'
+    }
+    implementation 'com.google.android.gms:play-services-base:17.2.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
     //added for Firebase (below 5 lines)
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
     implementation "com.google.firebase:firebase-analytics"
     implementation "com.google.firebase:firebase-database"
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
