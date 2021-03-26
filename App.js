@@ -12,8 +12,12 @@ import 'react-native-gesture-handler';
 import AppStack from './src/AppStack';
 import {NavigationContainer} from '@react-navigation/native';
 import { SearchProvider } from './src/SearchProvider';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
+  setTimeout(() => {
+    SplashScreen.hide();
+  }, 1000);
   return (
     <NavigationContainer>
       <SearchProvider>
