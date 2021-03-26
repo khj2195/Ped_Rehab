@@ -8,6 +8,14 @@ target 'Ped_Rehab' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  # Add the Firebase pod for Google Analytics
+  pod 'Firebase/Analytics'
+  
+  # Add the pods for any other Firebase products you want to use in your app
+  # For example, to use Firebase Authentication and Cloud Firestore
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+
   target 'Ped_RehabTests' do
     inherit! :complete
     # Pods for testing
@@ -17,10 +25,10 @@ target 'Ped_Rehab' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!
-  post_install do |installer|
-    flipper_post_install(installer)
-  end
+  # use_flipper!
+  # post_install do |installer|
+  #   flipper_post_install(installer)
+  # end
 end
 
 target 'Ped_Rehab-tvOS' do

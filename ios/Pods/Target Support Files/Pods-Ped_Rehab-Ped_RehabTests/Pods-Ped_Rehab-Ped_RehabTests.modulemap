@@ -1,0 +1,6 @@
+module Pods_Ped_Rehab_Ped_RehabTests {
+  umbrella header "Pods-Ped_Rehab-Ped_RehabTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
