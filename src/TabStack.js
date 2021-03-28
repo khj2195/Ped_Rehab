@@ -40,6 +40,7 @@ const TabBarIcon = (focused, name) => {
   );
 };
 
+
 const TabStack = () => {
   return (
     <Tab.Navigator
@@ -47,7 +48,11 @@ const TabStack = () => {
       screenOptions={({route}) => ({
         tabBarLabel: route.name,
         tabBarIcon: ({focused}) => TabBarIcon(focused, route.name),
-      })}>
+      })}
+      tabBarOptions = {{
+        activeTintColor : '#fa8072',
+        inactiveTintColor : '#b2b2b2'
+      }}>
       <Tab.Screen name="홈" component={HomeScreen} />
       <Tab.Screen name="지도" component={MapScreen} />
       <Tab.Screen name="커뮤니티" component={CommunityScreen} />

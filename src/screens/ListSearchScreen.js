@@ -143,7 +143,11 @@ const ListSearchScreen = () => {
   },[centerName])
   return (
     <View style={styles.container}>
-      <View style={{flex: 1, alignItems: 'center'}}>
+      <View style={{
+        width : '100%',
+        height: 60,
+        // flex: 1,
+        alignItems: 'center'}}>
         <FormInput
           labelValue={centerName}
           onChangeText={(userCenter) => 
@@ -155,14 +159,14 @@ const ListSearchScreen = () => {
               // setShowList([]);
             }}
           placeholderText="병원 또는 센터를 검색하세요"
-          iconType={require('../assets/magnifier.png')}
+          iconType={require('../assets/loupe.png')}
           autoCapitalize="none"
           autoCorrect={false}
           editable={true}
         />
       </View>
       {centerName.length>0 &&
-      <View style={{flex:1, flexDirection:'column'}}> 
+      <View style={{flex:1, flexDirection:'column', backgroundColor : 'yellow'}}> 
         {showList.map((mem,idx)=>{
           // setCount(idx);
           return <TouchableOpacity
@@ -184,7 +188,7 @@ const ListSearchScreen = () => {
               </TouchableOpacity>
         })}
       </View>}
-      <View style={{flex: 7, flexDirection: 'column'}}>
+      <View style={{flex: 7, flexDirection: 'column', backgroundColor : 'pink'}}>
         <View>
           <TouchableOpacity
             style={[styles.button, {width: 42}]}

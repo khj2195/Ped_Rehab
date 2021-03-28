@@ -13,7 +13,7 @@ const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
         style={styles.input}
         numberOfLines={1}
         placeholder={placeholderText}
-        placeholderTextColor="#666"
+        placeholderTextColor="#B2B2B2"
         {...rest}
       />      
       <View style={styles.iconStyle}>
@@ -27,34 +27,38 @@ export default FormInput;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginTop: 5,
-    marginBottom: 10,
+
+    paddingRight:20,
     width: '100%',
-    height: windowHeight / 15,
-    borderColor: '#f0aa98',
-    borderRadius: 3,
+    height: '100%',
+    borderColor: 'white',
+    borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
+    alignItems : 'center',
+    backgroundColor: 'green',
+    shadowColor : '#000000',
+    shadowOpacity : 0.3,
+    shadowOffset : {width :0, height :2},
+    elevation :3,
+
+    },
   iconStyle: {
-    padding: 10,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRightColor: '#ccc',
-    borderRightWidth: 1,
+    marginLeft : 60,
+    borderRightWidth: 0,
     width: 50,
   },
   input: {
-    padding: 10,
-    flex: 1,
+    marginLeft : 20,
+    height : 17,
     fontSize: 16,
-    fontFamily: 'Lato-Regular',
-    color: '#333',
+    fontFamily: 'HangultuelGothic-Regular',
+    color: '#B2B2B2',
     justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor :'grey'
   },
   inputField: {
     padding: 10,
@@ -64,6 +68,6 @@ const styles = StyleSheet.create({
     height: windowHeight / 15,
     fontSize: 16,
     borderRadius: 8,
-    borderWidth: 1,
+    borderWidth: 1
   },
 });
