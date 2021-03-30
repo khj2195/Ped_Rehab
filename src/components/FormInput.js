@@ -8,6 +8,7 @@ const windowHeight = Dimensions.get('window').height;
 const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
   return (
     <View style={styles.inputContainer}>
+      <View pointerEvents='none'>
       <TextInput
         value={labelValue}
         style={styles.input}
@@ -16,6 +17,7 @@ const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
         placeholderTextColor="#B2B2B2"
         {...rest}
       />      
+      </View>
       <View style={styles.iconStyle}>
         <Image style={{width: 25, height: 25}} source={iconType}/>
       </View>

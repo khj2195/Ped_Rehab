@@ -10,6 +10,7 @@ import {
   Button,
   Modal,
   Dimensions,
+  TextInput
 } from 'react-native';
 import FormInput from '../components/FormInput';
 import {SearchContext} from '../SearchProvider';
@@ -146,9 +147,32 @@ const ListSearchScreen = () => {
       <View style={{
         width : '100%',
         height: 60,
-        // flex: 1,
-        alignItems: 'center'}}>
-        <FormInput
+        justifyContent : 'center',
+        backgroundColor : 'yellow'}}>
+        <TextInput
+        value={centerName}
+        style={styles.input
+
+
+        }
+        numberOfLines={1}
+        placeholderTextColor="#B2B2B2"
+        onChangeText={(userCenter) => 
+          {
+            list.length=0;
+            setCenterName(userCenter);
+            // searchEngine();
+            
+            // setShowList([]);
+          }}
+        placeholder="병원 또는 센터를 검색하세요"
+        iconType={require('../assets/loupe.png')}
+        autoCapitalize="none"
+        autoCorrect={false}
+        editable={true}
+        
+        />      
+        {/* <FormInput
           labelValue={centerName}
           onChangeText={(userCenter) => 
             {
@@ -163,7 +187,7 @@ const ListSearchScreen = () => {
           autoCapitalize="none"
           autoCorrect={false}
           editable={true}
-        />
+        /> */}
       </View>
       {centerName.length>0 &&
       <View style={{flex:1, flexDirection:'column', backgroundColor : 'yellow'}}> 
@@ -619,4 +643,11 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   horizontalRegion: {flex: 3, flexDirection: 'row', backgroundColor: '#EEEEE8'},
+  input: {
+    height : 17,
+    fontSize: 16,
+    fontFamily: 'HangultuelGothic-Regular',
+    color: '#B2B2B2',
+    justifyContent: 'center',
+    backgroundColor :'grey'}
 });

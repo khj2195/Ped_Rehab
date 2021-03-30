@@ -5,6 +5,7 @@
 #import <React/RCTRootView.h>
 #import <Firebase.h>
 #import <Firebasecore/FirebaseCore.h>
+#import <RNSplashScreen.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -32,6 +33,7 @@ static void InitializeFlipper(UIApplication *application) {
 {
 // Use Firebase library to configure APIs
 [FIRApp configure];
+[RNSplashScreen show]; 
 
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
