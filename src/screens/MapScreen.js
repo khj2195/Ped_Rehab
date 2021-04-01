@@ -35,8 +35,10 @@ const selectedMarkerImage = require('../assets/marker_selected.png');
 const MapScreen = () => {
   const {centerType, setCenterType} = useContext(SearchContext);
   const {location, setLocation} = useContext(SearchContext);
-  const [currentLocLat, setCurrentLocLat] = useState(37.564362);
-  const [currentLocLong, setCurrentLocLong] = useState(126.977011);
+  // const [currentLocLat, setCurrentLocLat] = useState(37.564362);
+  // const [currentLocLong, setCurrentLocLong] = useState(126.977011);
+  const [currentLocLat, setCurrentLocLat] = useState(0);
+  const [currentLocLong, setCurrentLocLong] = useState(0);
   const [rerender, setRerender] = useState(true);
   const [flag, setFlag] = useState(false);
   const [centerIndex, setCenterIndex] = useState(-1); //마커와 기관명을 매칭
@@ -78,7 +80,7 @@ const MapScreen = () => {
         idList.push(doc.id);
       });
       console.log('inSize: ', latList.length);
-      showMarkers(latList, longList);
+      // showMarkers(latList, longList);
     } catch (error) {
       throw error;
     }
@@ -86,7 +88,6 @@ const MapScreen = () => {
     setRerender(!rerender);
     console.log('Rerendered now');
     console.log('firePromise called');
-    // console.log('inSize2: ',latList.length);
   }
 
   const refRBSheet = useRef();
@@ -167,15 +168,6 @@ const MapScreen = () => {
         <MapView
           provider={PROVIDER_GOOGLE}
           style={{...StyleSheet.absoluteFillObject}}
-          // onMapReady={()=>{
-          //   PermissionsAndroid.request(
-          //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-          //     ).then(granted => {
-          //       alert(granted) // just to ensure that permissions were granted
-          //       }
-          //     )
-          //   }
-          // }
           showsUserLocation={true}
           showsMyLocationButton={true} //iOS에서 NSLocationWhenInUseUsageDescription key in Info.plist필요, 참조: https://github.com/react-native-maps/react-native-maps/blob/master/docs/mapview.md
           zoomControlEnabled={true}
@@ -184,8 +176,8 @@ const MapScreen = () => {
             setCenterIndex(-1);
           }}
           initialRegion={{
-            latitude: currentLocLat,
-            longitude: currentLocLong,
+            latitude: currentLocLat>0? currentLocLat : 37.564362,
+            longitude: currentLocLong>0? currentLocLong : 126.977011,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}>
@@ -196,29 +188,9 @@ const MapScreen = () => {
               refRBSheet.current.open();
             }}
           />
-          <Marker
-            coordinate={{latitude: currentLocLat, longitude: currentLocLong}}
-            image={require('../assets/current_location.png')}
-          />
           {flag && showMarkers(latList, longList)}
         </MapView>
-        {/* <NaverMapView style={{width: '100%', height: '100%'}}
-                    showsMyLocationButton={true}
-                    center={{...P0, zoom: 16}}
-                    onTouch={e => console.log('onTouch', JSON.stringify(e.nativeEvent))}
-                    onCameraChange={e => console.log('onCameraChange', JSON.stringify(e))}
-                    onMapClick={e => console.log('onMapClick', JSON.stringify(e))}
-                    >
-          <Marker coordinate={P0} onClick={() => 
-                    {
-                      refRBSheet.current.open()
-                      console.log('contactList[1]:', contactList[1]);
-                      console.log('idList:', idList[0]);
-                    }}
-          />
-          {flag && showMarkers(latList,longList)}
 
-      </NaverMapView> */}
         <RBSheet
           ref={refRBSheet}
           closeOnDragDown={true}

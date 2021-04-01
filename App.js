@@ -15,9 +15,11 @@ import { SearchProvider } from './src/SearchProvider';
 import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
+useEffect(()=>{
   setTimeout(() => {
     SplashScreen.hide();
   }, 1000);
+},[])
   return (
     <NavigationContainer>
       <SearchProvider>
