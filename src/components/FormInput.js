@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
     paddingRight:20,
     width: '100%',
     height: '100%',
-    borderColor: 'white',
+    borderColor: '#b2b2b2',
     borderRadius: 10,
-    borderWidth: 1,
+    borderWidth: 0.3,
     flexDirection: 'row',
     alignItems : 'center',
-    backgroundColor: 'green',
+    // backgroundColor: 'green',
     shadowColor : '#000000',
     shadowOpacity : 0.3,
     shadowOffset : {width :0, height :2},
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     fontFamily: 'HangultuelGothic-Regular',
     color: '#B2B2B2',
     justifyContent: 'center',
-    backgroundColor :'grey'
+    // backgroundColor :'grey'
   },
   inputField: {
     padding: 10,

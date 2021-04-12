@@ -35,7 +35,7 @@ const HomeScreen = ({navigation}) => {
         source={require("../assets/logo_v1.png")}/>
       </View>
       <View style = {{
-        backgroundColor : 'yellow',
+        // backgroundColor : 'yellow',
         width : '100%',
         marginTop : 30
     }}>
@@ -52,7 +52,8 @@ const HomeScreen = ({navigation}) => {
         width : 150,
         height : 35,
         marginTop : 30,
-        backgroundColor : 'green'}}>        
+        // backgroundColor : 'green'
+        }}>        
         <SwitchSelector
           initial={centerType==='병원'? 0 : 1}
           onPress={(value) => {setCenterType(value), console.log(value)}}
@@ -72,7 +73,7 @@ const HomeScreen = ({navigation}) => {
       <View style={{
         backgroundColor : 'white',
         marginTop : 10, 
-        width :330,
+        width : 0.8*windowWidth,
         height : 60,
         justifyContent : 'center'
         }}>
@@ -81,7 +82,7 @@ const HomeScreen = ({navigation}) => {
           navigation.navigate('ListSearch')
           
         }}
-        style={{backgroundColor : 'red'}}
+        // style={{backgroundColor : 'red'}}
         >
         <FormInput
             labelValue={centerName}
