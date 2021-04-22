@@ -7,7 +7,7 @@ import ListSearchScreen from './screens/ListSearchScreen';
 import TabStack from './TabStack';
 
 const Stack = createStackNavigator();
-const AppStack = () => {
+const AppStack = () => { //screen들간의 구조를 선언
   return (
     <Stack.Navigator>
       <Stack.Screen

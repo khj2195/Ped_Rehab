@@ -9,7 +9,7 @@ import CommunityScreen from './screens/CommunityScreen';
 import MyPageScreen from './screens/MyPageScreen';
 import Icons from 'react-native-vector-icons/dist/Ionicons';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator(); // Tab의 구조 선언
 const TabBarIcon = (focused, name) => {
   let iconName, fontSize;
   if (name === '홈') {

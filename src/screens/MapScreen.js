@@ -32,6 +32,31 @@ const addressList = [];
 const markerImage = require('../assets/marker_round.png');
 const selectedMarkerImage = require('../assets/marker_selected.png');
 
+const treatmentTypes = [
+  '운동재활치료',
+  '감각재활치료',
+  '놀이치료',
+  '행동치료',
+  '언어치료',
+  '심리치료',
+  '심리운동치료',
+  '청능치료',
+  '음악치료',
+  '미술치료',
+];
+const treatmentStates = [
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+];
+
 const MapScreen = () => {
   const {centerType, setCenterType} = useContext(SearchContext);
   const {location, setLocation} = useContext(SearchContext);
@@ -42,6 +67,10 @@ const MapScreen = () => {
   const [rerender, setRerender] = useState(true);
   const [flag, setFlag] = useState(false);
   const [centerIndex, setCenterIndex] = useState(-1); //마커와 기관명을 매칭
+  const [careType, setCareType] = useState([]);
+  const {treatment, setTreatment} = useContext(SearchContext);
+
+  const treatmentBottomSheet = useRef();
 
   const P0 = {latitude: 37.564362, longitude: 126.977011};
   const P1 = {latitude: 37.565051, longitude: 126.978567};
@@ -164,6 +193,34 @@ const MapScreen = () => {
           ]}
         />
       </View>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <TouchableOpacity style={{flex: 1, flexDirection:'row'}} onPress={() => {}}>
+          <View style={{flex: 5, paddingTop: 5, paddingLeft: 5}}>
+            <Text>지역별</Text>
+          </View>
+          <View style={{flex: 1, paddingTop: 7}}>
+            <Image
+              style={{width: 15, height: 15}}
+              source={require('../assets/arrow_below.png')}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{flex: 1, flexDirection: 'row'}}
+          onPress={() => {
+            treatmentBottomSheet.current.open();
+          }}>
+          <View style={{flex: 5, paddingTop: 5, paddingLeft: 5}}>
+            <Text>치료과목</Text>
+          </View>
+          <View style={{flex: 1, paddingTop: 7}}>
+            <Image
+              style={{width: 15, height: 15}}
+              source={require('../assets/arrow_below.png')}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
       <View style={{flex: 14}}>
         <MapView
           provider={PROVIDER_GOOGLE}
@@ -176,8 +233,8 @@ const MapScreen = () => {
             setCenterIndex(-1);
           }}
           initialRegion={{
-            latitude: currentLocLat>0? currentLocLat : 37.564362,
-            longitude: currentLocLong>0? currentLocLong : 126.977011,
+            latitude: currentLocLat > 0 ? currentLocLat : 37.564362,
+            longitude: currentLocLong > 0 ? currentLocLong : 126.977011,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}>
@@ -216,8 +273,247 @@ const MapScreen = () => {
           </Text>
         </RBSheet>
       </View>
+
+      {/* 치료과목 선택 */}
+      <RBSheet
+        ref={treatmentBottomSheet}
+        closeOnDragDown={true}
+        closeOnPressMask={true}
+        customStyles={{
+          wrapper: {
+            backgroundColor: 'transparent',
+          },
+          draggableIcon: {
+            backgroundColor: '#000',
+          },
+        }}
+        height={(2 * Dimensions.get('window').height) / 3}>
+        <View style={{flex: 1}}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              paddingTop: 15,
+              paddingBottom: 15,
+              borderColor: '#FA8072',
+              borderBottomWidth: 1,
+              marginLeft: 10,
+              marginRight: 10,
+            }}>
+            <View style={{flex: 8}}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 'normal',
+                  paddingLeft: 20,
+                  textAlign: 'center',
+                }}>
+                치료과목 선택
+              </Text>
+            </View>
+            <View style={{flex: 1}}>
+              <TouchableOpacity
+                onPress={() => {
+                  // setCarePopup(false);
+
+                  //완료 누르면 context의 Treatment를 treatmentstates가 false인 member들로 설정
+                  {
+                    // careType.map((mem, idx) => {
+                    //   setTreatment([...treatment, mem]);
+                    // });
+                    setTreatment(careType);
+                  }
+                  console.log('context treatment: ', treatment);
+                  treatmentBottomSheet.current.close();
+                }}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 'normal',
+                    textAlign: 'center',
+                    color: '#566573',
+                  }}>
+                  완료
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* 선택된 치료과목 표시 */}
+          {careType.length > 0 && (
+            <View
+              style={{
+                flex: 4,
+                flexDirection: 'row',
+                paddingTop: 5,
+                borderColor: '#FA8072',
+                borderBottomWidth: 1,
+                marginLeft: 10,
+                marginRight: 10,
+              }}>
+              {careType.map((mem, idx) => {
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.button,
+                      {width: 16 * treatmentTypes[mem].length + 4},
+                    ]}
+                    key={idx}
+                    onPress={() => {
+                      //다시 누르면 사라지도록
+                      setCareType([
+                        ...careType.slice(0, idx),
+                        ...careType.slice(idx + 1),
+                      ]);
+                      treatmentStates[mem] = !treatmentStates[mem];
+                      console.log(careType[idx]);
+                      console.log(treatmentTypes[mem].length);
+                    }}>
+                    <Text style={{fontSize: 15, color: '#FA8072'}}>
+                      {treatmentTypes[mem]}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
+          {/* 전체 치료과목 표시 */}
+          {treatmentStates.map((mem, idx) => {
+            return (
+              idx % 2 === 0 && (
+                <View style={styles.horizontalRegion} key={idx}>
+                  <View style={{flex: 1, justifyContent: 'center'}} key={idx}>
+                    <TouchableOpacity
+                      key={idx}
+                      style={styles.optionButton}
+                      onPress={() => {
+                        treatmentStates[idx] = !treatmentStates[idx]; //안 눌렸을 땐 누르는 순간 false로 바뀌고 careType에 0 추가
+                        if (!treatmentStates[idx]) {
+                          setCareType([idx, ...careType]);
+                        } else {
+                          //이미 눌려있다면 해당하는 놈만 쏙 빼
+                          setCareType([
+                            ...careType.slice(0, careType.indexOf(idx)),
+                            ...careType.slice(careType.indexOf(idx) + 1),
+                          ]);
+                        }
+                        console.log('careType: ', careType);
+                        console.log(
+                          'treatmentStates[',
+                          idx,
+                          ']: ',
+                          treatmentStates[idx],
+                        );
+                      }}>
+                      <Text
+                        style={[
+                          styles.optionText,
+                          {color: treatmentStates[idx] ? '#000' : '#FA8072'},
+                        ]}>
+                        {treatmentTypes[idx]}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{flex: 1, justifyContent: 'center'}}
+                    key={idx + 1}>
+                    <TouchableOpacity
+                      key={idx + 1}
+                      style={styles.optionButton}
+                      onPress={() => {
+                        treatmentStates[idx + 1] = !treatmentStates[idx + 1]; //안 눌렸을 땐 누르는 순간 false로 바뀌고 careType에 0 추가
+                        if (!treatmentStates[idx + 1]) {
+                          setCareType([idx + 1, ...careType]);
+                        } else {
+                          //이미 눌려있다면 해당하는 놈만 쏙 빼
+                          setCareType([
+                            ...careType.slice(0, careType.indexOf(idx + 1)),
+                            ...careType.slice(careType.indexOf(idx + 1) + 1),
+                          ]);
+                        }
+                        console.log('careType: ', careType);
+                        console.log(
+                          'treatmentStates[',
+                          idx + 1,
+                          ']: ',
+                          treatmentStates[idx + 1],
+                        );
+                      }}>
+                      <Text
+                        style={[
+                          styles.optionText,
+                          {
+                            color: treatmentStates[idx + 1]
+                              ? '#000'
+                              : '#FA8072',
+                          },
+                        ]}>
+                        {treatmentTypes[idx + 1]}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )
+            );
+          })}
+          <View style={{flex: 12, backgroundColor: '#EEEEE8'}} />
+        </View>
+        {/* </Modal> */}
+      </RBSheet>
     </View>
   );
 };
 
 export default MapScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    // alignItems: 'center',
+    padding: 20,
+    paddingTop: 10,
+    backgroundColor: 'white',
+  },
+  logo: {
+    height: 50,
+    width: 200,
+    resizeMode: 'contain',
+    paddingBottom: 100,
+  },
+  text: {
+    fontFamily: 'Kufam-SemiBoldItalic',
+    fontSize: 28,
+    marginBottom: 10,
+    color: '#051d5f',
+    textAlign: 'center',
+  },
+  button: {
+    height: 33,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    padding: 5,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    borderColor: '#FA8072',
+    marginRight: 5,
+    marginTop: 3,
+  },
+  optionText: {
+    fontSize: 15,
+    paddingLeft: 15,
+  },
+  optionButton: {
+    borderColor: '#FA8072',
+    borderBottomWidth: 1,
+    flex: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingTop: 15,
+  },
+  horizontalRegion: {flex: 4, flexDirection: 'row', backgroundColor: '#EEEEE8'},
+});
