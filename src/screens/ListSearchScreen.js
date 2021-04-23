@@ -15,6 +15,7 @@ import FormInput from '../components/FormInput';
 import {SearchContext} from '../SearchProvider';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import firestore from '@react-native-firebase/firestore';
+import InfoScreen from './InfoScreen';
 const seoulCenterList = [
   '(주)in공감 심리발달센터',
   '(주)관악아동발달센터',
@@ -430,14 +431,14 @@ const locationStates = [
 ];
 const list = []; //검색조건 만족하는 모든 센터들로 이루어진 배열. 즉, 검색 결과 리스트
 const selectedTreatmentInText=[]; //아래 나오는 careType을 string으로 이루어진 배열로 변환한 것. Ex: ['언어치료', '음악치료']
-const ListSearchScreen = () => {
+const ListSearchScreen = ({navigation}) => {
   const [centerName, setCenterName] = useState(''); //검색창에 입력된 문자열
   const [typePopup, setTypePopup] = useState(false); //일단 무시해도됨
   const [careType, setCareType] = useState([]); //8가지 치료과목 중 어떤 과목이 검색 옵션으로 선택되어있는지 (숫자로 된 배열)
-  const {treatment, setTreatment} = useContext(SearchContext); //careType과 동일.
+  const {treatment, setTreatment, centerType, setCenterType, location, setLocation, nameToShow, setNameToShow} = useContext(SearchContext); 
+  //treatment는 careType과 동일.
   //careType과 treatment를 따로 둔 이유: 지도 탭과 동기화 여부를 결정할 수 있게 하기 위해서... (04/21) 그냥 동기화하는게 나을듯?
-  const {centerType, setCenterType} = useContext(SearchContext); // 병원 or 사설센터
-  const {location, setLocation} = useContext(SearchContext); //지역
+  //centerType은 병원 or 사설센터, location은 검색하고자 하는 지역, nameToShow는 검색결과 중 하나를 선택했을 때 상세히 보여질 기관의 이름
   const treatmentBottomSheet = useRef(); // 검색조건 중 치료과목을 선택하는 팝업창
   const locationBottomSheet = useRef(); // 검색조건 중 지역을 선택하는 팝업창
   const [showList, setShowList] = useState([]); //위에서 나온 list를 state로 받은 것. (상태변수로 가지고있기 위해)
@@ -473,7 +474,7 @@ const ListSearchScreen = () => {
     careType.map((mem,idx)=>{
       selectedTreatmentInText.push(treatmentTypes[mem]);
     })
-    list.length=0;
+    // list.length=0;
     setShowList([]);
     searchEngine(selectedTreatmentInText);
     console.log('showList: ',showList);
@@ -482,6 +483,7 @@ const ListSearchScreen = () => {
   }, [centerName, careType]);
   return (
     <View style={styles.container}>
+      <View style={{paddingRight:20, paddingLeft:20}}>
       <FormInput
         labelValue={centerName}
         onChangeText={(userCenter) => {
@@ -494,7 +496,8 @@ const ListSearchScreen = () => {
         autoCorrect={false}
         editable={true}
       />
-      <View>
+      </View>
+      <View style={{paddingRight:20, paddingLeft:20}}>
         <TouchableOpacity //병원 or 센터 결정하는 버튼 (일단 비활성화)
           style={[styles.button, {width: 42}]}
           onPress={() => {
@@ -502,7 +505,7 @@ const ListSearchScreen = () => {
           <Text style={{fontSize: 16, color: '#FA8072'}}>{centerType}</Text>
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', paddingRight:20, paddingLeft:20}}>
         <TouchableOpacity // 검색하고자 하는 지역 결정하는 버튼 (일단 비활성화)
           style={[styles.button, {width: 58}]}
           onPress={() => {
@@ -512,7 +515,7 @@ const ListSearchScreen = () => {
           <Text style={{fontSize: 16, color: '#FA8072'}}>{location}</Text>
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', paddingRight:20, paddingLeft:20}}>
         <TouchableOpacity // 검색하고자 하는 치료과목 정하는 버튼 (일단 비활성화)
           style={[styles.button, {width: 74}]}
           onPress={() => {
@@ -545,22 +548,39 @@ const ListSearchScreen = () => {
       </View>
       {/* 검색어가 입력되었을 때 검색조건에 맞는 센터 리스트를 보여줌 */}
       {centerName.length > 0 && (
-        <ScrollView style={{borderWidth:1, borderColor:'#FA8072'}}>
+        <ScrollView style={{borderWidth:1, borderColor:'#FA8072', marginTop:10}}>
           {showList.map((mem,idx)=>{
             return (
               <TouchableOpacity
                 key={idx}
                 style={{
-                  height: 33,
+                  marginLeft: 10,
+                  marginRight:10,
+                  borderColor:'#FA8072',
+                  borderWidth:1,
+                  borderRadius:10,
+                  height: 100,
                   backgroundColor: 'white',
                   padding: 5,
-                  marginRight: 5,
                   marginTop: 5,
+                  flexDirection:'row',
+
                 }}
                 onPress={() => {
                   //개별기관 정보페이지로
+                  navigation.navigate('InfoScreen');
+                  setNameToShow(mem);
                 }}>
-                <Text style={{fontSize: 16, color: '#000'}}>{mem}</Text>
+                <View style={{flex:1}}>
+                <Image style={{
+                    width: 90, 
+                    height: 90,
+                    }} 
+                    source={require("../assets/logo_v1.png")}/>
+                </View>
+                <View style={{flex:2}}>
+                  <Text style={{fontSize: 16, color: '#000'}}>{mem}</Text>
+                </View>
               </TouchableOpacity>
             )})
           }
@@ -892,7 +912,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     // alignItems: 'center',
-    padding: 20,
     paddingTop: 10,
     backgroundColor: 'white',
   },

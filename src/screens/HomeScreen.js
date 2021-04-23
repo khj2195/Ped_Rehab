@@ -57,7 +57,6 @@ const HomeScreen = ({navigation}) => {
         <SwitchSelector //병원 or 센터 중 택일하는 스위치 버튼
           initial={centerType==='병원'? 0 : 1}
           onPress={(value) => {setCenterType(value), console.log(value)}}
-
           textColor='#FA8072' //'#7a44cf'
           selectedColor='#fff'
           buttonColor='#FA8072'
@@ -80,7 +79,6 @@ const HomeScreen = ({navigation}) => {
       <TouchableOpacity
         onPress={()=>{
           navigation.navigate('ListSearch')
-          
         }}
         // style={{backgroundColor : 'red'}}
         >

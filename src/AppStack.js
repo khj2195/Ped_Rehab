@@ -2,9 +2,9 @@ import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomeScreen from './screens/HomeScreen';
 import ListSearchScreen from './screens/ListSearchScreen';
 import TabStack from './TabStack';
+import InfoScreen from './screens/InfoScreen';
 
 const Stack = createStackNavigator();
 const AppStack = () => { //screen들간의 구조를 선언
@@ -22,6 +22,11 @@ const AppStack = () => { //screen들간의 구조를 선언
         name="ListSearch"
         component={ListSearchScreen}
         options={{title: '세부검색'}}
+      />
+      <Stack.Screen
+        name="InfoScreen"
+        component={InfoScreen}
+        // options={{title: '세부검색'}}
       />
     </Stack.Navigator>
   );

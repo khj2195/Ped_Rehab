@@ -7,6 +7,7 @@ export const SearchProvider = ({children}) => {
   const [centerType, setCenterType] = useState('병원');
   const [location, setLocation] = useState('서울시');
   const [treatment, setTreatment] = useState([]);
+  const [nameToShow, setNameToShow] = useState('');
   return (
     <SearchContext.Provider
       value={{
@@ -16,6 +17,8 @@ export const SearchProvider = ({children}) => {
         setLocation,
         treatment,
         setTreatment,
+        nameToShow,
+        setNameToShow
       }}>
       {children}
     </SearchContext.Provider>
