@@ -1,4 +1,10 @@
-import React, {useState, useContext, useRef, useEffect, useLayoutEffect} from 'react';
+import React, {
+  useState,
+  useContext,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+} from 'react';
 import {
   View,
   Text,
@@ -410,7 +416,7 @@ const locationList = [
   '전라북도',
   '충청남도',
   '충청북도',
-  '제주'
+  '제주',
 ];
 const locationStates = [
   // true,
@@ -427,15 +433,24 @@ const locationStates = [
   true,
   true,
   true,
-  true
+  true,
 ];
 const list = []; //검색조건 만족하는 모든 센터들로 이루어진 배열. 즉, 검색 결과 리스트
-const selectedTreatmentInText=[]; //아래 나오는 careType을 string으로 이루어진 배열로 변환한 것. Ex: ['언어치료', '음악치료']
+const selectedTreatmentInText = []; //아래 나오는 careType을 string으로 이루어진 배열로 변환한 것. Ex: ['언어치료', '음악치료']
 const ListSearchScreen = ({navigation}) => {
   const [centerName, setCenterName] = useState(''); //검색창에 입력된 문자열
   const [typePopup, setTypePopup] = useState(false); //일단 무시해도됨
   const [careType, setCareType] = useState([]); //8가지 치료과목 중 어떤 과목이 검색 옵션으로 선택되어있는지 (숫자로 된 배열)
-  const {treatment, setTreatment, centerType, setCenterType, location, setLocation, nameToShow, setNameToShow} = useContext(SearchContext); 
+  const {
+    treatment,
+    setTreatment,
+    centerType,
+    setCenterType,
+    location,
+    setLocation,
+    nameToShow,
+    setNameToShow,
+  } = useContext(SearchContext);
   //treatment는 careType과 동일.
   //careType과 treatment를 따로 둔 이유: 지도 탭과 동기화 여부를 결정할 수 있게 하기 위해서... (04/21) 그냥 동기화하는게 나을듯?
   //centerType은 병원 or 사설센터, location은 검색하고자 하는 지역, nameToShow는 검색결과 중 하나를 선택했을 때 상세히 보여질 기관의 이름
@@ -443,69 +458,74 @@ const ListSearchScreen = ({navigation}) => {
   const locationBottomSheet = useRef(); // 검색조건 중 지역을 선택하는 팝업창
   const [showList, setShowList] = useState([]); //위에서 나온 list를 state로 받은 것. (상태변수로 가지고있기 위해)
 
-  async function searchEngine(arr) { //검색 조건에 맞는 데이터리스트를 DB에서 불러와 list와 showList에 저장하는 함수
+  async function searchEngine(arr) {
+    //검색 조건에 맞는 데이터리스트를 DB에서 불러와 list와 showList에 저장하는 함수
     try {
-    if(selectedTreatmentInText.length>0){
-      const querySnapshot= await firestore()
-        .collection('Centers')
-        .where('city1','==',location)
-        .where('treatmentTypes','array-contains-any',arr)
-        .get();
-      querySnapshot.forEach((doc)=>{
-        list.push(doc.id);
-      })
-      setShowList([...new Set(list.filter((mem)=>mem.includes(centerName)))]);
-    } else{
-      const querySnapshot= await firestore()
-        .collection('Centers')
-        .where('city1','==',location)
-        .get();
-      querySnapshot.forEach((doc)=>{
-        list.push(doc.id);
-      })
-      setShowList([...new Set(list.filter((mem)=>mem.includes(centerName)))]);
-    }
+      if (selectedTreatmentInText.length > 0) {
+        const querySnapshot = await firestore()
+          .collection('Centers')
+          .where('city1', '==', location)
+          .where('treatmentTypes', 'array-contains-any', arr)
+          .get();
+        querySnapshot.forEach((doc) => {
+          list.push(doc.id);
+        });
+        setShowList([
+          ...new Set(list.filter((mem) => mem.includes(centerName))),
+        ]);
+      } else {
+        const querySnapshot = await firestore()
+          .collection('Centers')
+          .where('city1', '==', location)
+          .get();
+        querySnapshot.forEach((doc) => {
+          list.push(doc.id);
+        });
+        setShowList([
+          ...new Set(list.filter((mem) => mem.includes(centerName))),
+        ]);
+      }
     } catch (error) {
       throw error;
     }
   }
-  useLayoutEffect(() => { //검색어(centerName)와 검색조건(careType)이 달라질 때마다 list와 showList를 초기화한 뒤 새로 설정
-    selectedTreatmentInText.length=0;
-    careType.map((mem,idx)=>{
+  useEffect(() => {
+    //검색어(centerName)와 검색조건(careType)이 달라질 때마다 list와 showList를 초기화한 뒤 새로 설정
+    selectedTreatmentInText.length = 0;
+    careType.map((mem, idx) => {
       selectedTreatmentInText.push(treatmentTypes[mem]);
-    })
-    // list.length=0;
+    });
+    list.length = 0; // 검색조건이 바뀌면 기존의 검색결과를 초기화해줌.
     setShowList([]);
     searchEngine(selectedTreatmentInText);
-    console.log('showList: ',showList);
-    console.log('careType: ',careType);
-    console.log('selectedTreatmentInText: ',selectedTreatmentInText);
+    console.log('showList: ', showList);
+    console.log('careType: ', careType);
+    console.log('selectedTreatmentInText: ', selectedTreatmentInText);
   }, [centerName, careType]);
   return (
     <View style={styles.container}>
-      <View style={{paddingRight:20, paddingLeft:20}}>
-      <FormInput
-        labelValue={centerName}
-        onChangeText={(userCenter) => {
-          list.length = 0;
-          setCenterName(userCenter);
-        }}
-        placeholderText="병원 또는 센터를 검색하세요"
-        iconType={require('../assets/magnifier.png')}
-        autoCapitalize="none"
-        autoCorrect={false}
-        editable={true}
-      />
+      <View style={{paddingRight: 20, paddingLeft: 20}}>
+        <FormInput
+          labelValue={centerName}
+          onChangeText={(userCenter) => {
+            list.length = 0;
+            setCenterName(userCenter);
+          }}
+          placeholderText="병원 또는 센터를 검색하세요"
+          iconType={require('../assets/magnifier.png')}
+          autoCapitalize="none"
+          autoCorrect={false}
+          editable={true}
+        />
       </View>
-      <View style={{paddingRight:20, paddingLeft:20}}>
+      <View style={{paddingRight: 20, paddingLeft: 20}}>
         <TouchableOpacity //병원 or 센터 결정하는 버튼 (일단 비활성화)
           style={[styles.button, {width: 42}]}
-          onPress={() => {
-          }}>
+          onPress={() => {}}>
           <Text style={{fontSize: 16, color: '#FA8072'}}>{centerType}</Text>
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row', paddingRight:20, paddingLeft:20}}>
+      <View style={{flexDirection: 'row', paddingRight: 20, paddingLeft: 20}}>
         <TouchableOpacity // 검색하고자 하는 지역 결정하는 버튼 (일단 비활성화)
           style={[styles.button, {width: 58}]}
           onPress={() => {
@@ -515,7 +535,7 @@ const ListSearchScreen = ({navigation}) => {
           <Text style={{fontSize: 16, color: '#FA8072'}}>{location}</Text>
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row', paddingRight:20, paddingLeft:20}}>
+      <View style={{flexDirection: 'row', paddingRight: 20, paddingLeft: 20}}>
         <TouchableOpacity // 검색하고자 하는 치료과목 정하는 버튼 (일단 비활성화)
           style={[styles.button, {width: 74}]}
           onPress={() => {
@@ -548,42 +568,44 @@ const ListSearchScreen = ({navigation}) => {
       </View>
       {/* 검색어가 입력되었을 때 검색조건에 맞는 센터 리스트를 보여줌 */}
       {centerName.length > 0 && (
-        <ScrollView style={{borderWidth:1, borderColor:'#FA8072', marginTop:10}}>
-          {showList.map((mem,idx)=>{
+        <ScrollView
+          style={{borderWidth: 1, borderColor: '#FA8072', marginTop: 10}}>
+          {showList.map((mem, idx) => {
             return (
               <TouchableOpacity
                 key={idx}
                 style={{
                   marginLeft: 10,
-                  marginRight:10,
-                  borderColor:'#FA8072',
-                  borderWidth:1,
-                  borderRadius:10,
+                  marginRight: 10,
+                  borderColor: '#FA8072',
+                  borderWidth: 1,
+                  borderRadius: 10,
                   height: 100,
                   backgroundColor: 'white',
                   padding: 5,
                   marginTop: 5,
-                  flexDirection:'row',
-
+                  flexDirection: 'row',
                 }}
                 onPress={() => {
                   //개별기관 정보페이지로
                   navigation.navigate('InfoScreen');
                   setNameToShow(mem);
                 }}>
-                <View style={{flex:1}}>
-                <Image style={{
-                    width: 90, 
-                    height: 90,
-                    }} 
-                    source={require("../assets/logo_v1.png")}/>
+                <View style={{flex: 1}}>
+                  <Image
+                    style={{
+                      width: 90,
+                      height: 90,
+                    }}
+                    source={require('../assets/logo_v1.png')}
+                  />
                 </View>
-                <View style={{flex:2}}>
+                <View style={{flex: 2}}>
                   <Text style={{fontSize: 16, color: '#000'}}>{mem}</Text>
                 </View>
               </TouchableOpacity>
-            )})
-          }
+            );
+          })}
         </ScrollView>
         // </View>
       )}
@@ -720,7 +742,7 @@ const ListSearchScreen = ({navigation}) => {
                             ...careType.slice(careType.indexOf(idx) + 1),
                           ]);
                         }
-                        console.log('careType: ', careType);
+                        // console.log('careType: ', careType);
                         console.log(
                           'treatmentStates[',
                           idx,
@@ -747,7 +769,6 @@ const ListSearchScreen = ({navigation}) => {
                         treatmentStates[idx + 1] = !treatmentStates[idx + 1]; //안 눌렸을 땐 누르는 순간 false로 바뀌고 careType에 0 추가
                         if (!treatmentStates[idx + 1]) {
                           setCareType([idx + 1, ...careType]);
-
                         } else {
                           //이미 눌려있다면 해당하는 놈만 빼
                           setCareType([
